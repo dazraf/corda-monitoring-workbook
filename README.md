@@ -4,7 +4,7 @@
 
 1. JDK 1.8 installed. 
 2. An environment capable of running basic Unix shell scripts.
-3. A relatively modern browser - should would in IE but not tested. 
+3. A relatively modern browser - should work in IE but not tested. 
 
 ## Build
 
