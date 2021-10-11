@@ -10,4 +10,4 @@ then
 fi
 
 pushd $NODES_DIR/PartyB
-java -jar -Dcapsule.jvm.args="-javaagent:drivers/jolokia-jvm-1.6.0-agent.jar=port=7002" corda.jar
+java -jar -Dcapsule.jvm.args="-javaagent:drivers/jolokia-jvm-1.6.0-agent.jar=port=7002"  corda.jar --sshd --sshd-port 2223
