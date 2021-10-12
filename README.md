@@ -86,7 +86,7 @@ flow start com.template.flows.Initiator receiver: "O=PartyB, L=New York, C=US"
 ## Examining JMX data in Hawtio
 
 In the [Party Artemis Addresses](http://localhost:8080/hawtio/jmx/attributes?con=PartyA&nid=root-org.apache.activemq.artemis-P2P-addresses)
-you should see an entry that matches exactly the queue name that [CustomService](./workflows/src/main/kotlin/com/template/service/CustomService.kt#& L16)
+you should see an entry that matches exactly the queue name that [CustomService](./workflows/src/main/kotlin/com/template/service/CustomService.kt#L16)
 generated. 
 
 In my local run, PartyA node printed:
