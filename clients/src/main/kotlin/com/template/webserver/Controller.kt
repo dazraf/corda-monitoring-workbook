@@ -1,29 +1,49 @@
 package com.template.webserver
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.slf4j.LoggerFactory
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
 import org.springframework.util.MimeTypeUtils.*
 import com.template.flows.SimpleTemplateFlow
+import com.template.states.TemplateState
+import net.corda.core.crypto.SecureHash
+import net.corda.core.identity.CordaX500Name
+import net.corda.core.identity.Party
 import net.corda.core.node.NodeInfo
+import net.corda.core.node.services.Vault
+import net.corda.core.node.services.Vault.Update
 import net.corda.core.transactions.SignedTransaction
 import net.corda.core.utilities.NetworkHostAndPort
 import net.corda.core.utilities.getOrThrow
-import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.boot.context.event.ApplicationReadyEvent
+import org.springframework.context.event.EventListener
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.core.env.Environment
+import org.springframework.core.env.get
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody
+import rx.Subscriber
+import java.io.IOException
+import java.io.OutputStream
+import javax.servlet.http.HttpServletResponse
+
 
 /**
  * Define your API endpoints here.
  */
 @RestController
 @RequestMapping("/api") // The paths for HTTP requests are relative to this base path.
-class Controller(private val rpc: NodeRPCConnection) {
+class Controller(
+    private val rpc: NodeRPCConnection,
+    private val environment: Environment
+) {
 
     companion object {
         private val logger = LoggerFactory.getLogger(RestController::class.java)
     }
 
-    private val proxy = rpc.proxy
+    private val proxy get() = rpc.proxy
 
     @GetMapping(value = ["/network"], produces = [APPLICATION_JSON_VALUE])
     private fun network(): List<SimpleNodeInfo> {
@@ -44,8 +64,15 @@ class Controller(private val rpc: NodeRPCConnection) {
     })
 
     @PostMapping(value = ["/flow"], produces = [TEXT_PLAIN_VALUE])
-    private fun startFlow(): String {
-        val tx = this.rpc.proxy.startFlowDynamic(SimpleTemplateFlow::class.java, this.rpc.proxy.nodeInfo().legalIdentities.first()).returnValue.getOrThrow()
-        return tx.toString()
+    private fun startFlow(@RequestHeader("recipient") recipient: String, @RequestHeader("message") message: String): String {
+        val recipientParty = proxy.wellKnownPartyFromX500Name(CordaX500Name.parse(recipient))
+        val secureHash =
+            proxy.startFlowDynamic(SimpleTemplateFlow::class.java, recipientParty, message).returnValue.getOrThrow().id
+        return secureHash.toString()
+    }
+
+    @EventListener(ApplicationReadyEvent::class)
+    fun postStartupPrint() {
+        logger.info("Server started on http://localhost:${environment["local.server.port"]}")
     }
 }

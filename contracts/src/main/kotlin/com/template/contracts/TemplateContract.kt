@@ -24,7 +24,6 @@ class TemplateContract : Contract {
         when (command.value) {
             is Commands.Create -> requireThat {
                 "No inputs should be consumed when sending the Hello-World message.".using(tx.inputStates.isEmpty())
-                "The message must be Hello-World".using(output.msg == "Hello-World")
             }
         }
     }

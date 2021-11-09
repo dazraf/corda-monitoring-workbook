@@ -2,8 +2,12 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Example front-end.</title>
+    <title>Control Console</title>
     <style>
+        html {
+            font-family: sans-serif;
+        }
+
         body {
             background-color: darkslategray;
             display: flex;
@@ -13,28 +17,54 @@
             padding: 0;
             margin: 0;
         }
+
         .toolbar {
             margin: 10px;
         }
+
         #output {
-            background-color: lightgray;
+            background-color: #050505;
+            color: azure;
             flex-grow: 1.0;
             font-family: monospace;
             padding: 0.5em 1em;
             overflow-x: auto;
-            overflow-anchor: none;
-            font-size: small;
+            font-size: x-large;
         }
+
+        .button {
+            background-color: white; /* Green */
+            border: none;
+            color: black;
+            padding: 16px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: green;
+            color: white;
+        }
+
     </style>
 </head>
 <body>
-    <div class="toolbar">
-        <button onclick="getNetwork()">Network</button>
-        <button onclick="getMyInfo()">My Info</button>
-        <button onclick="runFlow()">Run Flow</button>
-    </div>
-    <div id="output">
-    </div>
+<div class="toolbar">
+    <button class="button" onclick="getNetwork()">Network</button>
+    <button class="button" onclick="getMyInfo()">My Info</button>
+    <button class="button" onclick="runFlow()">Run Flow</button>
+    <label class="button" for="queryCheck">Query
+        <input type="checkbox" id="queryCheck" onchange="toggleQuery(this)" unchecked>
+    </label>
+    <button class="button" onclick="clearOutput()">Clear</button>
+</div>
+<div id="output">
+</div>
 </body>
 <script src="app.js"></script>
 </html>

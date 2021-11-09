@@ -29,13 +29,11 @@ import net.corda.core.identity.AbstractParty
 // *********
 @InitiatingFlow
 @StartableByRPC
-class SimpleTemplateFlow(private val receiver: Party) : FlowLogic<SignedTransaction>() {
+class SimpleTemplateFlow(private val receiver: Party, private val msg: String = "Hello-world") : FlowLogic<SignedTransaction>() {
     override val progressTracker = ProgressTracker()
 
     @Suspendable
     override fun call(): SignedTransaction {
-        //Hello World message
-        val msg = "Hello-World"
         val sender = ourIdentity
 
         // Step 1. Get a reference to the notary service on our network and our key pair.

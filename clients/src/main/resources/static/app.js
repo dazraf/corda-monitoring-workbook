@@ -21,19 +21,43 @@ function runFlow() {
   const url = "/api/flow"
   log(`POST ${url}`)
   fetch(url, {
-    method: "POST"
-  }).then(response => {
-    console.log(response);
-    return response.text()
-  })
+    method: "POST",
+    headers: {
+      recipient: "O=PartyB, L=New York, C=US",
+      message: `message: ${new Date().toISOString()}`
+    }
+  }).then(response => response.text())
     .then(data => {
-      console.log(data)
       log(data)
     })
+}
+
+let queryWebSocket = null;
+
+function toggleQuery(e) {
+  const url = `ws://${document.location.host}/api/query`
+  if (e.checked) {
+    log(`Connecting to websocket on ${url} ...`)
+    queryWebSocket = new WebSocket(url)
+    queryWebSocket.onmessage = event => {
+      log(`⭐ ${event.data}`)
+    }
+  } else if (queryWebSocket) {
+    log("Closing websocket ...")
+    queryWebSocket.close()
+    queryWebSocket = null;
+  }
+  log("✅")
 }
 
 function log(msg) {
   const output = document.getElementById("output")
   output.innerText += `\n${new Date().toISOString()} - ${msg}\n`
   output.scroll({ top: output.scrollHeight, behavior: 'smooth' });
+}
+
+
+function clearOutput() {
+  const output = document.getElementById("output")
+  output.innerText = ""
 }
