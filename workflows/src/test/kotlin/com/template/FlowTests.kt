@@ -8,7 +8,7 @@ import com.template.states.TemplateState
 import java.util.concurrent.Future;
 import net.corda.core.node.services.vault.QueryCriteria
 import net.corda.core.transactions.SignedTransaction
-import com.template.flows.Initiator
+import com.template.flows.SimpleTemplateFlow
 import net.corda.core.node.services.Vault.StateStatus
 
 
@@ -34,7 +34,7 @@ class FlowTests {
     }
     @Test
     fun `DummyTest`() {
-        val flow = Initiator(b.info.legalIdentities[0])
+        val flow = SimpleTemplateFlow(b.info.legalIdentities[0])
         val future: Future<SignedTransaction> = a.startFlow(flow)
         network.runNetwork()
 

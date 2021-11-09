@@ -29,7 +29,7 @@ import net.corda.core.identity.AbstractParty
 // *********
 @InitiatingFlow
 @StartableByRPC
-class Initiator(private val receiver: Party) : FlowLogic<SignedTransaction>() {
+class SimpleTemplateFlow(private val receiver: Party) : FlowLogic<SignedTransaction>() {
     override val progressTracker = ProgressTracker()
 
     @Suspendable
@@ -67,8 +67,8 @@ class Initiator(private val receiver: Party) : FlowLogic<SignedTransaction>() {
     }
 }
 
-@InitiatedBy(Initiator::class)
-class Responder(val counterpartySession: FlowSession) : FlowLogic<SignedTransaction>() {
+@InitiatedBy(SimpleTemplateFlow::class)
+class SimpleTemplateFlowResponder(val counterpartySession: FlowSession) : FlowLogic<SignedTransaction>() {
     @Suspendable
     override fun call(): SignedTransaction {
         val signTransactionFlow = object : SignTransactionFlow(counterpartySession) {

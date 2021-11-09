@@ -66,13 +66,13 @@ tab using the respective `Connect` button.
 In the terminal for Party A execute:
 
 ```bash
-flow start com.template.flows.Initiator receiver: "O=PartyB, L=New York, C=US"
+flow start com.template.flows.SimpleTemplateFlow receiver: "O=PartyB, L=New York, C=US"
 ```
 
 The flow should execute successfully.
 
 ```bash
-flow start com.template.flows.Initiator receiver: "O=PartyB, L=New York, C=US"
+flow start com.template.flows.SimpleTemplateFlow receiver: "O=PartyB, L=New York, C=US"
 
  ✓ Starting
           Requesting signature by notary service

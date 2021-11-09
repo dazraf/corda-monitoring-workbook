@@ -3,12 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Example front-end.</title>
+    <style>
+        body {
+            background-color: darkslategray;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+            padding: 0;
+            margin: 0;
+        }
+        .toolbar {
+            margin: 10px;
+        }
+        #output {
+            background-color: lightgray;
+            flex-grow: 1.0;
+            font-family: monospace;
+            padding: 0.5em 1em;
+            overflow-x: auto;
+            overflow-anchor: none;
+            font-size: small;
+        }
+    </style>
 </head>
 <body>
-    <div>
-        <img src="https://www.corda.net/wp-content/uploads/2016/11/fg005_corda_b.png" alt="Corda" width="500">
-        <h1>CorDapp Template (Kotlin Version)</h1>
-        <p>Learn more about how to build CorDapps at <a href="http://www.github.com/corda/samples-kotlin">sample-kotlin</a></p>
+    <div class="toolbar">
+        <button onclick="getNetwork()">Network</button>
+        <button onclick="getMyInfo()">My Info</button>
+        <button onclick="runFlow()">Run Flow</button>
+    </div>
+    <div id="output">
     </div>
 </body>
+<script src="app.js"></script>
 </html>
