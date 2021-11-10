@@ -100,12 +100,42 @@ function clearOutput() {
 
 function setTitle() {
     const url = "/api/name";
-    fetch(url)
+    return fetch(url)
         .then(response => response.text())
         .then(name => {
             document.title = name;
-            console.log(name);
+            document.getElementById("nodeName").innerText = name;
         })
 }
 
-setTitle()
+function updateThrowOnNotification() {
+    const e = document.getElementById("enableThrowOnNotificationCheck")
+    const url = "/api/throw-on-notification";
+    return fetch(url)
+        .then(response => response.json())
+        .then(value => e.checked = value)
+}
+
+function toggleThrowOnNotification(e) {
+    const enabled = e.checked;
+    const url = "/api/throw-on-notification";
+    return fetch(url, {
+        method: "PUT",
+        headers: {
+            value: enabled
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                log(`Failed to change throw on notification state: ${response.status} ${response.statusText}`)
+            }
+        })
+        .then(() => updateThrowOnNotification())
+}
+
+async function start() {
+    await setTitle()
+    await updateThrowOnNotification()
+}
+
+start()

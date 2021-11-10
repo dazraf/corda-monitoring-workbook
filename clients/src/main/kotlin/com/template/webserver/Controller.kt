@@ -1,32 +1,18 @@
 package com.template.webserver
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import org.slf4j.LoggerFactory
-import org.springframework.util.MimeTypeUtils.*
 import com.template.flows.SimpleTemplateFlow
-import com.template.states.TemplateState
-import net.corda.core.crypto.SecureHash
 import net.corda.core.identity.CordaX500Name
-import net.corda.core.identity.Party
 import net.corda.core.node.NodeInfo
-import net.corda.core.node.services.Vault
-import net.corda.core.node.services.Vault.Update
-import net.corda.core.transactions.SignedTransaction
 import net.corda.core.utilities.NetworkHostAndPort
 import net.corda.core.utilities.getOrThrow
+import org.slf4j.LoggerFactory
 import org.springframework.boot.context.event.ApplicationReadyEvent
 import org.springframework.context.event.EventListener
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.env.Environment
 import org.springframework.core.env.get
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
+import org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE
+import org.springframework.util.MimeTypeUtils.TEXT_PLAIN_VALUE
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody
-import rx.Subscriber
-import java.io.IOException
-import java.io.OutputStream
-import javax.servlet.http.HttpServletResponse
 
 
 /**
@@ -60,7 +46,17 @@ class Controller(
 
     @GetMapping(value = ["/my-info"], produces = [APPLICATION_JSON_VALUE])
     private fun myInfo(): SimpleNodeInfo {
-        return this.rpc.proxy.nodeInfo().toSimpleNodeInfo()
+        return rpc.proxy.nodeInfo().toSimpleNodeInfo()
+    }
+
+    @GetMapping(value = ["/throw-on-notification"], produces = [APPLICATION_JSON_VALUE])
+    private fun throwOnNotification(): Boolean {
+        return websocketController.throwOnNotification
+    }
+
+    @PutMapping(value = ["/throw-on-notification"])
+    private fun throwOnNotification(@RequestHeader("value") value: Boolean) {
+        websocketController.throwOnNotification = value
     }
 
     data class SimpleNodeInfo(val addresses: List<NetworkHostAndPort>, val names: List<String>)

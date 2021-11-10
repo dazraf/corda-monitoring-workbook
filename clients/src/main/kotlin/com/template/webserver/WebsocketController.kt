@@ -25,6 +25,8 @@ class WebsocketController(private val rpcConnection: NodeRPCConnection) :
     companion object {
         private val logger = contextLogger()
     }
+
+    var throwOnNotification: Boolean = false
     private val objectMapper get() = rpcConnection.objectMapper
 
     private val sessionSubscriptions = mutableMapOf<String, Subscription>()
@@ -61,7 +63,7 @@ class WebsocketController(private val rpcConnection: NodeRPCConnection) :
                 override fun onError(e: Throwable) {
                     try {
                         logger.error("received error from vault query", e)
-                        session.sendMessage(TextMessage("Error: ${e.message}")) // in prod do not expose internal messages
+                        session.sendMessage(TextMessage("❌ ${e.message}")) // in prod do not expose internal messages
                         session.close(CloseStatus.SERVER_ERROR)
                     } catch (err: Throwable) {
                         logger.error("failed to write error to output stream", err)
@@ -91,6 +93,11 @@ class WebsocketController(private val rpcConnection: NodeRPCConnection) :
                             }
                         }
                     }
+                    if (throwOnNotification) {
+                        // The next line tests what happens if we allow an exception to bleed back into corda rpc lib!
+                        logger.info("*** Throwing an error back up to Corda RPC lib! ***")
+                        error("Oh dear!")
+                    }
                 }
             })
     }
@@ -102,7 +109,7 @@ class WebsocketController(private val rpcConnection: NodeRPCConnection) :
                 if (!subscription.isUnsubscribed) {
                     subscription.unsubscribe()
                 }
-            } catch(err: Throwable) {
+            } catch (err: Throwable) {
                 logger.error("failed to unsubscribe", err)
             }
 
