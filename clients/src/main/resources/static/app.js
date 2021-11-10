@@ -19,15 +19,22 @@ function getMyInfo() {
 
 let nextFlowId = 1
 
-function runFlow() {
+async function runFlow() {
     const url = "/api/flow"
     const flowId = nextFlowId++;
     log(`➡️ ️Flow ${flowId}: Invoking ${url}`);
+    let recipient;
+    const name = await getName()
+    if (name === "PartyA") {
+        recipient = "O=PartyB, L=New York, C=US"
+    } else {
+        recipient = "O=PartyA,L=London,C=GB"
+    }
     fetch(url, {
         method: "POST",
         headers: {
             clientRequestId: flowId,
-            recipient: "O=PartyB, L=New York, C=US",
+            recipient: recipient,
             message: `Flow invocation ${flowId} at ${new Date().toISOString()}`
         }
     })
@@ -98,14 +105,15 @@ function clearOutput() {
     output.innerText = "";
 }
 
-function setTitle() {
+async function getName() {
     const url = "/api/name";
-    return fetch(url)
-        .then(response => response.text())
-        .then(name => {
-            document.title = name;
-            document.getElementById("nodeName").innerText = name;
-        })
+    return await fetch(url).then(response => response.text());
+}
+
+async function setTitle() {
+    const name = await getName()
+        document.title = name;
+        document.getElementById("nodeName").innerText = name;
 }
 
 function updateThrowOnNotification() {
