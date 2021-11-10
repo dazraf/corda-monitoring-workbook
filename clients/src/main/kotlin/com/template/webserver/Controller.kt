@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletResponse
 @RequestMapping("/api") // The paths for HTTP requests are relative to this base path.
 class Controller(
     private val rpc: NodeRPCConnection,
+    private val websocketController: WebsocketController,
     private val environment: Environment
 ) {
 
@@ -44,6 +45,11 @@ class Controller(
     }
 
     private val proxy get() = rpc.proxy
+
+    @GetMapping(value = ["/name"], produces = [APPLICATION_JSON_VALUE])
+    private fun name(): String {
+        return rpc.proxy.nodeInfo().legalIdentities.first().name.organisation
+    }
 
     @GetMapping(value = ["/network"], produces = [APPLICATION_JSON_VALUE])
     private fun network(): List<SimpleNodeInfo> {
@@ -64,11 +70,18 @@ class Controller(
     })
 
     @PostMapping(value = ["/flow"], produces = [TEXT_PLAIN_VALUE])
-    private fun startFlow(@RequestHeader("recipient") recipient: String, @RequestHeader("message") message: String): String {
+    private fun startFlow(
+        @RequestHeader("clientRequestId") clientRequestId: String,
+        @RequestHeader("recipient") recipient: String,
+        @RequestHeader("message") message: String
+    ): String {
         val recipientParty = proxy.wellKnownPartyFromX500Name(CordaX500Name.parse(recipient))
-        val secureHash =
-            proxy.startFlowDynamic(SimpleTemplateFlow::class.java, recipientParty, message).returnValue.getOrThrow().id
-        return secureHash.toString()
+        val flowHandle = proxy.startTrackedFlowDynamic(SimpleTemplateFlow::class.java, recipientParty, message)
+        flowHandle.progress.subscribe {
+            logger.info("flow handle ${flowHandle.id} progress: $it`")
+            websocketController.sendProgressUpdate("Flow $clientRequestId: $it")
+        }
+        return flowHandle.returnValue.getOrThrow().tx.id.toString()
     }
 
     @EventListener(ApplicationReadyEvent::class)

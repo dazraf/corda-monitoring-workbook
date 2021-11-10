@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Control Console</title>
+    <title>-</title>
     <style>
         html {
             font-family: sans-serif;
@@ -58,8 +58,9 @@
     <button class="button" onclick="getNetwork()">Network</button>
     <button class="button" onclick="getMyInfo()">My Info</button>
     <button class="button" onclick="runFlow()">Run Flow</button>
-    <label class="button" for="queryCheck">Query
-        <input type="checkbox" id="queryCheck" onchange="toggleQuery(this)" unchecked>
+    <label class="button" for="queryCheck">Notifications
+        <!--suppress HtmlUnknownAttribute -->
+        <input type="checkbox" id="queryCheck" onchange="trackingQuery.toggle(this)" unchecked>
     </label>
     <button class="button" onclick="clearOutput()">Clear</button>
 </div>
