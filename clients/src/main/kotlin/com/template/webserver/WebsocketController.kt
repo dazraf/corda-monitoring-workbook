@@ -84,6 +84,7 @@ class WebsocketController(private val rpcConnection: NodeRPCConnection) :
                                 this.unsubscribe()
                             } catch (err: Throwable) {
                                 // belt and braces to avoid any exception flowing up into corda rpc lib
+                                logger.error("failed to unsubscribe from observable", err)
                             }
                             try {
                                 sessionSubscriptions.remove(session.id)
