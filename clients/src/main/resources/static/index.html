@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>-</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>-</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="toolbar">
@@ -12,16 +12,18 @@
         <button class="button" onclick="getMyInfo()">My Info</button>
         <button class="button" onclick="runFlow()">Run Flow</button>
         <label class="button" for="queryCheck">Notifications
-            <!--suppress HtmlUnknownAttribute -->
-            <input type="checkbox" id="queryCheck" onchange="trackingQuery.toggle(this)" unchecked>
+          <!--suppress HtmlUnknownAttribute -->
+            <input type="checkbox" id="queryCheck" onchange="trackingQuery.toggle(this)"
+                   unchecked>
         </label>
         <label class="button" for="enableThrowOnNotificationCheck">Bad Exceptions
-            <!--suppress HtmlUnknownAttribute -->
-            <input type="checkbox" id="enableThrowOnNotificationCheck" onchange="toggleThrowOnNotification(this)" unchecked>
+          <!--suppress HtmlUnknownAttribute -->
+            <input type="checkbox" id="enableThrowOnNotificationCheck"
+                   onchange="toggleThrowOnNotification(this)" unchecked>
         </label>
         <button class="button" onclick="clearOutput()">Clear</button>
     </span>
-    <label id="nodeName"></label>
+  <label id="nodeName"></label>
 </div>
 <div id="output">
 </div>

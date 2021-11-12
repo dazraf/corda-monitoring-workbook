@@ -14,34 +14,44 @@ import org.junit.Before
 import org.junit.Test
 
 class FlowTests {
-    private lateinit var network: MockNetwork
-    private lateinit var a: StartedMockNode
-    private lateinit var b: StartedMockNode
 
-    @Before
-    fun setup() {
-        network = MockNetwork(MockNetworkParameters(cordappsForAllNodes = listOf(
-                TestCordapp.findCordapp("com.template.contracts"),
-                TestCordapp.findCordapp("com.template.flows")
-        )))
-        a = network.createPartyNode()
-        b = network.createPartyNode()
-        network.runNetwork()
-    }
+  private lateinit var network: MockNetwork
+  private lateinit var a: StartedMockNode
+  private lateinit var b: StartedMockNode
 
-    @After
-    fun tearDown() {
-        network.stopNodes()
-    }
-    @Test
-    fun `dummy test`() {
-        val flow = SimpleTemplateFlow(b.info.legalIdentities[0])
-        val future = a.startFlow(flow)
-        network.runNetwork()
+  @Before
+  fun setup() {
+    network = MockNetwork(
+      MockNetworkParameters(
+        cordappsForAllNodes = listOf(
+          TestCordapp.findCordapp("com.template.contracts"),
+          TestCordapp.findCordapp("com.template.flows")
+        )
+      )
+    )
+    a = network.createPartyNode()
+    b = network.createPartyNode()
+    network.runNetwork()
+  }
 
-        future.getOrThrow()
-        //successful query means the state is stored at node b's vault. Flow went through.
-        val inputCriteria: QueryCriteria = QueryCriteria.VaultQueryCriteria().withStatus(StateStatus.UNCONSUMED)
-        b.services.vaultService.queryBy(TemplateState::class.java, inputCriteria).states[0].state.data
-    }
+  @After
+  fun tearDown() {
+    network.stopNodes()
+  }
+
+  @Test
+  fun `dummy test`() {
+    val flow = SimpleTemplateFlow(b.info.legalIdentities[0])
+    val future = a.startFlow(flow)
+    network.runNetwork()
+
+    future.getOrThrow()
+    //successful query means the state is stored at node b's vault. Flow went through.
+    val inputCriteria: QueryCriteria =
+      QueryCriteria.VaultQueryCriteria().withStatus(StateStatus.UNCONSUMED)
+    b.services.vaultService.queryBy(
+      TemplateState::class.java,
+      inputCriteria
+    ).states[0].state.data
+  }
 }
