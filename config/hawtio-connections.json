@@ -1,0 +1,62 @@
+[
+  {
+    "name": "PartyA",
+    "scheme": "http",
+    "host": "127.0.0.1",
+    "port": 7001,
+    "path": "/jolokia",
+    "useProxy": true,
+    "jolokiaUrl": null,
+    "userName": null,
+    "password": null,
+    "reachable": true
+  },
+  {
+    "name": "Spring-PartyA",
+    "scheme": "http",
+    "host": "localhost",
+    "port": 10050,
+    "path": "/actuator/jolokia",
+    "useProxy": true,
+    "jolokiaUrl": null,
+    "userName": null,
+    "password": null,
+    "reachable": true
+  },
+  {
+    "name": "PartyB",
+    "scheme": "http",
+    "host": "127.0.0.1",
+    "port": 7002,
+    "path": "/jolokia",
+    "useProxy": true,
+    "jolokiaUrl": null,
+    "userName": null,
+    "password": null,
+    "reachable": true
+  },
+  {
+    "name": "Spring-PartyB",
+    "scheme": "http",
+    "host": "localhost",
+    "port": 10051,
+    "path": "/actuator/jolokia",
+    "useProxy": true,
+    "jolokiaUrl": null,
+    "userName": null,
+    "password": null,
+    "reachable": true
+  },
+  {
+    "name": "Notary",
+    "scheme": "http",
+    "host": "127.0.0.1",
+    "port": 7000,
+    "path": "/jolokia",
+    "useProxy": true,
+    "jolokiaUrl": null,
+    "userName": null,
+    "password": null,
+    "reachable": true
+  }
+]
