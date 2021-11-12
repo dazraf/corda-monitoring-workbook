@@ -6,7 +6,7 @@ tags
 *.log
 *.log.gz
 *.orig
-
+*.hprof
 .gradle
 
 # General build files

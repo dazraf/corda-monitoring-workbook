@@ -1,14 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Example front-end.</title>
+  <meta charset="UTF-8">
+  <title>-</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div>
-        <img src="https://www.corda.net/wp-content/uploads/2016/11/fg005_corda_b.png" alt="Corda" width="500">
-        <h1>CorDapp Template (Kotlin Version)</h1>
-        <p>Learn more about how to build CorDapps at <a href="http://www.github.com/corda/samples-kotlin">sample-kotlin</a></p>
-    </div>
+<div class="toolbar">
+    <span>
+        <button class="button" onclick="getNetwork()">Network</button>
+        <button class="button" onclick="getMyInfo()">My Info</button>
+        <button class="button" onclick="runFlow()">Run Flow</button>
+        <label class="button" for="queryCheck">Notifications
+          <!--suppress HtmlUnknownAttribute -->
+            <input type="checkbox" id="queryCheck" onchange="trackingQuery.toggle(this)"
+                   unchecked>
+        </label>
+        <label class="button" for="enableThrowOnNotificationCheck">Bad Exceptions
+          <!--suppress HtmlUnknownAttribute -->
+            <input type="checkbox" id="enableThrowOnNotificationCheck"
+                   onchange="toggleThrowOnNotification(this)" unchecked>
+        </label>
+        <button class="button" onclick="clearOutput()">Clear</button>
+    </span>
+  <label id="nodeName"></label>
+</div>
+<div id="output">
+</div>
 </body>
+<script src="app.js"></script>
 </html>

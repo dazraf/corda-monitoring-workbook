@@ -1,8 +1,10 @@
-#!/bin/sh
+#!/bin/bash
 
-SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ROOT_DIR="${SCRIPT_DIR}/.."
 NODES_DIR="${ROOT_DIR}/build/nodes"
+echo "Looking for nodes directory $NODES_DIR"
+
 if [ ! -d "${NODES_DIR}" ]
 then
   printf "build/nodes directory does not exist.\ndid you forget to run deployNodes?\n"

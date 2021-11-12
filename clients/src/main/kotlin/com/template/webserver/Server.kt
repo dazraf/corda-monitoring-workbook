@@ -15,8 +15,8 @@ private open class Starter
  * Starts our Spring Boot application.
  */
 fun main(args: Array<String>) {
-    val app = SpringApplication(Starter::class.java)
-    app.setBannerMode(Banner.Mode.OFF)
-    app.webApplicationType = SERVLET
-    app.run(*args)
+  val app = SpringApplication(Starter::class.java)
+  app.setBannerMode(Banner.Mode.OFF)
+  app.webApplicationType = SERVLET
+  app.run(*args)
 }

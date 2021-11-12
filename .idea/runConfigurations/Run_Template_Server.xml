@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Run Template Server" type="JetRunConfigurationType" factoryName="Kotlin" singleton="true">
-    <module name="com.template.clients.main" />
+  <configuration default="false" name="Run Template Server" type="JetRunConfigurationType" singleton="true">
+    <module name="corda-monitoring-workbook.clients.main" />
     <option name="VM_PARAMETERS" value="" />
     <option name="PROGRAM_PARAMETERS" value="" />
     <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
