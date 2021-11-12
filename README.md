@@ -19,12 +19,13 @@ Run the following scripts in the given order, each in its own distinct shell:
 1. `./scripts/01-Notary-with-jmx.sh`
 2. `./scripts/02-PartyA-with-jmx.sh`
 3. `./scripts/03-PartyB-with-jmx.sh`
-4. `./scripts/04-start-hawt.sh`
+4. `./scripts/04-PartyA-Spring.sh`
+5. `./scripts/05-PartyB-Spring.sh`
+6. `./scripts/06-start-hawt.sh`
 
 The last script starts the Hawtio app in your system browser.
 
-The first three start the Notary, PartyA, and PartyB nodes with Jolokia enabled 
-on ports `7000`, `7001`, `7002` respectively and bound to `127.0.0.1`.
+The first five start the Notary, PartyA and PartyB nodes, and the respective Spring servers all with Jolokia enabled. 
 
 This test Cordapp has a [CustomService](./workflows/src/main/kotlin/com/template/service/CustomService.kt) 
 which enumerates the list of legal entities (plural) associated with the node and formats the name
@@ -44,35 +45,31 @@ Corda implements this exact naming convention in [ArtemisMessagingComponent#Remo
 There are a number of other queues that are documented in the [official R3 Corda site](https://docs.r3.com/en/platform/corda/4.8/enterprise/messaging.html#message-queues).
 ## Hawtio Configuration 
 
-In the `Connect` tab you should see a `Add Connection` button.
+In the `Connect` tab you should see three dots next to the `Add Connection` button.
+Clicking it, you should see a menu with the option to import connections: 
 
-![hawtio-add-connect](./img/add-connection.png)
+![hawtio-import-connections](./img/import-connections.png)
 
-Create connections for the Notary, PartyA and PartyB Jolokia endpoints, testing each using
-the "Test Connection" button. Please note the configuration will be stored in the browser's
-local storage.
+Select `Import connections` and choose the file `<project-root>/config/hawtio-connections.json`. 
 
-![notary-connect](./img/edit-connection-notary.png)
-![party-a-connect](./img/edit-connection-party-a.png)
-![party-b-connect](./img/edit-connection-party-b.png)
-
-At the end of this step, you should have all the connections listed. Open each one in a new
-tab using the respective `Connect` button.
+You should have all the connections listed. 
 
 ![connections](./img/connections.png)
+
+Open each one in a new tab using the respective `Connect` button.
 
 ## Execute A Flow
 
 In the terminal for Party A execute:
 
 ```bash
-flow start com.template.flows.Initiator receiver: "O=PartyB, L=New York, C=US"
+flow start com.template.flows.SimpleTemplateFlow receiver: "O=PartyB, L=New York, C=US"
 ```
 
 The flow should execute successfully.
 
 ```bash
-flow start com.template.flows.Initiator receiver: "O=PartyB, L=New York, C=US"
+flow start com.template.flows.SimpleTemplateFlow receiver: "O=PartyB, L=New York, C=US"
 
  ✓ Starting
           Requesting signature by notary service

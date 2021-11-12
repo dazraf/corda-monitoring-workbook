@@ -1,0 +1,57 @@
+html {
+    font-family: sans-serif;
+}
+
+body {
+    background-color: darkslategray;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    padding: 0;
+    margin: 0;
+}
+
+.toolbar {
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#output {
+    background-color: #050505;
+    color: azure;
+    flex-grow: 1.0;
+    font-family: monospace;
+    padding: 0.5em 1em;
+    overflow-x: auto;
+    font-size: x-large;
+}
+
+.button {
+    background-color: white; /* Green */
+    border: none;
+    color: black;
+    padding: 16px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: green;
+    color: white;
+}
+
+#nodeName {
+    font-size: 3em;
+    color: white;
+    vertical-align: bottom;
+    margin: 0;
+    padding-right: 0.5em;
+    text-align-last: justify
+}
